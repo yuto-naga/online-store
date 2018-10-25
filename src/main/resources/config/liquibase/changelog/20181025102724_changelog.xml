@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="ynagasawa (generated)" id="1540430848027-2">
+        <addNotNullConstraint columnDataType="bigint" columnName="customer_id" tableName="product_order"/>
+    </changeSet>
+    <changeSet author="ynagasawa (generated)" id="1540430848027-3">
+        <addNotNullConstraint columnDataType="bigint" columnName="invoice_id" tableName="shipment"/>
+    </changeSet>
+    <changeSet author="ynagasawa (generated)" id="1540430848027-4">
+        <addNotNullConstraint columnDataType="bigint" columnName="order_id" tableName="invoice"/>
+    </changeSet>
+    <changeSet author="ynagasawa (generated)" id="1540430848027-5">
+        <addNotNullConstraint columnDataType="bigint" columnName="order_id" tableName="order_item"/>
+    </changeSet>
+    <changeSet author="ynagasawa (generated)" id="1540430848027-6">
+        <addNotNullConstraint columnDataType="bigint" columnName="product_id" tableName="order_item"/>
+    </changeSet>
+    <changeSet author="ynagasawa (generated)" id="1540430848027-7">
+        <addNotNullConstraint columnDataType="bigint" columnName="user_id" tableName="customer"/>
+    </changeSet>
+</databaseChangeLog>
