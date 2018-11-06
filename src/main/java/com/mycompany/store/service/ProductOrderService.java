@@ -71,7 +71,6 @@ public class ProductOrderService {
         else {
             return productOrderRepository.findOneByIdAndCustomerUserLogin(id, SecurityUtils.getCurrentUserLogin().get());
         }
-        return productOrderRepository.findOne(id);
     }
 
     /**

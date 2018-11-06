@@ -15,4 +15,6 @@ import org.springframework.data.jpa.repository.*;
 public interface ProductOrderRepository extends JpaRepository<ProductOrder, Long> {
 
     Page<ProductOrder> findAllByCustomerUserLogin(String login, Pageable pageable);
+
+    ProductOrder findOneByIdAndCustomerUserLogin(Long id, String login);
 }
