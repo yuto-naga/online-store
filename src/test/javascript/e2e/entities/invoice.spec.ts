@@ -1,7 +1,7 @@
 import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 
-describe('Invoice e2e test', () => {
+fdescribe('Invoice e2e test', () => {
 
     let navBarPage: NavBarPage;
     let invoiceDialogPage: InvoiceDialogPage;
@@ -31,7 +31,7 @@ describe('Invoice e2e test', () => {
         invoiceDialogPage.close();
     });
 
-   /* it('should create and save Invoices', () => {
+   it('should create and save Invoices', () => {
         invoiceComponentsPage.clickOnCreateButton();
         invoiceDialogPage.setDateInput(12310020012301);
         expect(invoiceDialogPage.getDateInput()).toMatch('2001-12-31T02:30');
@@ -48,7 +48,7 @@ describe('Invoice e2e test', () => {
         invoiceDialogPage.orderSelectLastOption();
         invoiceDialogPage.save();
         expect(invoiceDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });*/
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
