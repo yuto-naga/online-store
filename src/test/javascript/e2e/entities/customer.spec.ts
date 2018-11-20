@@ -31,15 +31,15 @@ describe('Customer e2e test', () => {
         customerDialogPage.close();
     });
 
-   /* it('should create and save Customers', () => {
+   it('should create and save Customers', () => {
         customerComponentsPage.clickOnCreateButton();
         customerDialogPage.setFirstNameInput('firstName');
         expect(customerDialogPage.getFirstNameInput()).toMatch('firstName');
         customerDialogPage.setLastNameInput('lastName');
         expect(customerDialogPage.getLastNameInput()).toMatch('lastName');
         customerDialogPage.genderSelectLastOption();
-        customerDialogPage.setEmailInput('email');
-        expect(customerDialogPage.getEmailInput()).toMatch('email');
+        customerDialogPage.setEmailInput('email@email.com');
+        expect(customerDialogPage.getEmailInput()).toMatch('email@email.com');
         customerDialogPage.setPhoneInput('phone');
         expect(customerDialogPage.getPhoneInput()).toMatch('phone');
         customerDialogPage.setAddressLine1Input('addressLine1');
@@ -53,7 +53,17 @@ describe('Customer e2e test', () => {
         customerDialogPage.userSelectLastOption();
         customerDialogPage.save();
         expect(customerDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });*/
+        expect(customerComponentsPage.getTable().isPresent()).toBeTruthy();
+    });
+
+    it('should delete Customers', () => {
+        customerComponentsPage.deleteFirstItem();
+        const deleteBtn = element.all(by.css('div.modal-footer')).first().element(by.css('button.btn.btn-danger'));
+        deleteBtn.click();
+        expect(customerComponentsPage.getTable().isPresent()).toBeFalsy();
+    });
+
+    
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -63,6 +73,7 @@ describe('Customer e2e test', () => {
 export class CustomerComponentsPage {
     createButton = element(by.css('.jh-create-entity'));
     title = element.all(by.css('jhi-customer div h2 span')).first();
+    table = element.all(by.css('.table-responsive tbody tr'));
 
     clickOnCreateButton() {
         return this.createButton.click();
@@ -70,6 +81,14 @@ export class CustomerComponentsPage {
 
     getTitle() {
         return this.title.getAttribute('jhiTranslate');
+    }
+
+    getTable() {
+        return this.table;
+    }
+
+    deleteFirstItem() {
+        this.table.first().element(by.css('button.btn-danger')).click();
     }
 }
 
