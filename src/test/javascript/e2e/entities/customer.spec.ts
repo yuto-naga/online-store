@@ -63,8 +63,6 @@ describe('Customer e2e test', () => {
         expect(customerComponentsPage.getTable().isPresent()).toBeFalsy();
     });
 
-    
-
     afterAll(() => {
         navBarPage.autoSignOut();
     });
