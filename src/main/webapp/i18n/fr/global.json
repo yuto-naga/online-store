@@ -7,13 +7,6 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entités",
-                "product": "Product",
-                "productCategory": "Product Category",
-                "customer": "Customer",
-                "productOrder": "Product Order",
-                "orderItem": "Order Item",
-                "invoice": "Invoice",
-                "shipment": "Shipment",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -43,6 +36,8 @@
         "form": {
             "username": "Nom d'utilisateur",
             "username.placeholder": "Votre nom d'utilisateur",
+            "currentpassword": "Current password",
+            "currentpassword.placeholder": "Current password",
             "newpassword": "Nouveau mot de passe",
             "newpassword.placeholder": "Nouveau mot de passe",
             "confirmpassword": "Confirmation du nouveau mot de passe",
@@ -89,7 +84,7 @@
             "id": "ID"
         },
         "ribbon": {
-            "dev":"Développement"
+            "dev": "Développement"
         },
         "item-count": "Affichage {{first}} - {{second}} de {{total}} items."
     },
@@ -133,7 +128,8 @@
         "Size": "Le champ {{fieldName}} ne respecte pas les critères minimum et maximum !",
         "userexists": "Login déjà utilisé !",
         "emailexists": "Email déjà utilisé !",
-        "idexists": "Une nouvelle entité {{entityName}} ne peut pas avoir d'ID !"
+        "idexists": "Une nouvelle entité {{entityName}} ne peut pas avoir d'ID !",
+        "idnull": "Invalid ID"
     },
     "footer": "Ceci est votre pied de page"
 }

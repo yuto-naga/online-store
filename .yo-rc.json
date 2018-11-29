@@ -4,7 +4,7 @@
       "packageName": "com.mycompany.store",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "4.14.5",
+    "jhipsterVersion": "5.7.0",
     "baseName": "store",
     "packageName": "com.mycompany.store",
     "packageFolder": "com/mycompany/store",
@@ -37,6 +37,7 @@
       "en",
       "zh-cn",
       "fr"
-    ]
+    ],
+    "otherModules": []
   }
 }
