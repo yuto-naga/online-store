@@ -1,53 +1,30 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { StoreSharedModule } from '../../shared';
-import { StoreAdminModule } from '../../admin/admin.module';
+import { StoreSharedModule } from 'app/shared';
+import { StoreAdminModule } from 'app/admin/admin.module';
 import {
-    CustomerService,
-    CustomerPopupService,
     CustomerComponent,
     CustomerDetailComponent,
-    CustomerDialogComponent,
-    CustomerPopupComponent,
+    CustomerUpdateComponent,
     CustomerDeletePopupComponent,
     CustomerDeleteDialogComponent,
     customerRoute,
-    customerPopupRoute,
-    CustomerResolvePagingParams,
+    customerPopupRoute
 } from './';
 
-const ENTITY_STATES = [
-    ...customerRoute,
-    ...customerPopupRoute,
-];
+const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
 
 @NgModule({
-    imports: [
-        StoreSharedModule,
-        StoreAdminModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
+    imports: [StoreSharedModule, StoreAdminModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         CustomerComponent,
         CustomerDetailComponent,
-        CustomerDialogComponent,
+        CustomerUpdateComponent,
         CustomerDeleteDialogComponent,
-        CustomerPopupComponent,
-        CustomerDeletePopupComponent,
+        CustomerDeletePopupComponent
     ],
-    entryComponents: [
-        CustomerComponent,
-        CustomerDialogComponent,
-        CustomerPopupComponent,
-        CustomerDeleteDialogComponent,
-        CustomerDeletePopupComponent,
-    ],
-    providers: [
-        CustomerService,
-        CustomerPopupService,
-        CustomerResolvePagingParams,
-    ],
+    entryComponents: [CustomerComponent, CustomerUpdateComponent, CustomerDeleteDialogComponent, CustomerDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class StoreCustomerModule {}

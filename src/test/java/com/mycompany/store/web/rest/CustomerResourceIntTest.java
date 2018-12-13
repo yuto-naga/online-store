@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.mycompany.store.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -50,8 +51,8 @@ public class CustomerResourceIntTest {
     private static final Gender DEFAULT_GENDER = Gender.MALE;
     private static final Gender UPDATED_GENDER = Gender.FEMALE;
 
-    private static final String DEFAULT_EMAIL = "Y&@Ea.V;";
-    private static final String UPDATED_EMAIL = "RQ@a.WN";
+    private static final String DEFAULT_EMAIL = "X@*.tQ";
+    private static final String UPDATED_EMAIL = "U@1z.K";
 
     private static final String DEFAULT_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_PHONE = "BBBBBBBBBB";
@@ -341,7 +342,7 @@ public class CustomerResourceIntTest {
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getCustomer() throws Exception {
@@ -381,7 +382,7 @@ public class CustomerResourceIntTest {
         int databaseSizeBeforeUpdate = customerRepository.findAll().size();
 
         // Update the customer
-        Customer updatedCustomer = customerRepository.findOne(customer.getId());
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
         // Disconnect from session so that the updates on updatedCustomer are not directly saved in db
         em.detach(updatedCustomer);
         updatedCustomer
@@ -422,15 +423,15 @@ public class CustomerResourceIntTest {
 
         // Create the Customer
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCustomerMockMvc.perform(put("/api/customers")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(customer)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Customer in the database
         List<Customer> customerList = customerRepository.findAll();
-        assertThat(customerList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(customerList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

@@ -74,7 +74,7 @@ public class ShipmentResource {
     public ResponseEntity<Shipment> updateShipment(@Valid @RequestBody Shipment shipment) throws URISyntaxException {
         log.debug("REST request to update Shipment : {}", shipment);
         if (shipment.getId() == null) {
-            return createShipment(shipment);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Shipment result = shipmentService.save(shipment);
         return ResponseEntity.ok()
@@ -94,7 +94,7 @@ public class ShipmentResource {
         log.debug("REST request to get a page of Shipments");
         Page<Shipment> page = shipmentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/shipments");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -107,8 +107,8 @@ public class ShipmentResource {
     @Timed
     public ResponseEntity<Shipment> getShipment(@PathVariable Long id) {
         log.debug("REST request to get Shipment : {}", id);
-        Shipment shipment = shipmentService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(shipment));
+        Optional<Shipment> shipment = shipmentService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(shipment);
     }
 
     /**

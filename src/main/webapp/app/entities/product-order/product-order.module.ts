@@ -1,50 +1,33 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { StoreSharedModule } from '../../shared';
+import { StoreSharedModule } from 'app/shared';
 import {
-    ProductOrderService,
-    ProductOrderPopupService,
     ProductOrderComponent,
     ProductOrderDetailComponent,
-    ProductOrderDialogComponent,
-    ProductOrderPopupComponent,
+    ProductOrderUpdateComponent,
     ProductOrderDeletePopupComponent,
     ProductOrderDeleteDialogComponent,
     productOrderRoute,
-    productOrderPopupRoute,
-    ProductOrderResolvePagingParams,
+    productOrderPopupRoute
 } from './';
 
-const ENTITY_STATES = [
-    ...productOrderRoute,
-    ...productOrderPopupRoute,
-];
+const ENTITY_STATES = [...productOrderRoute, ...productOrderPopupRoute];
 
 @NgModule({
-    imports: [
-        StoreSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
+    imports: [StoreSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         ProductOrderComponent,
         ProductOrderDetailComponent,
-        ProductOrderDialogComponent,
+        ProductOrderUpdateComponent,
         ProductOrderDeleteDialogComponent,
-        ProductOrderPopupComponent,
-        ProductOrderDeletePopupComponent,
+        ProductOrderDeletePopupComponent
     ],
     entryComponents: [
         ProductOrderComponent,
-        ProductOrderDialogComponent,
-        ProductOrderPopupComponent,
+        ProductOrderUpdateComponent,
         ProductOrderDeleteDialogComponent,
-        ProductOrderDeletePopupComponent,
-    ],
-    providers: [
-        ProductOrderService,
-        ProductOrderPopupService,
-        ProductOrderResolvePagingParams,
+        ProductOrderDeletePopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

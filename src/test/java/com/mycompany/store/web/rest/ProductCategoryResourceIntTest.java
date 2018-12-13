@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.mycompany.store.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -166,7 +167,7 @@ public class ProductCategoryResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getProductCategory() throws Exception {
@@ -199,7 +200,7 @@ public class ProductCategoryResourceIntTest {
         int databaseSizeBeforeUpdate = productCategoryRepository.findAll().size();
 
         // Update the productCategory
-        ProductCategory updatedProductCategory = productCategoryRepository.findOne(productCategory.getId());
+        ProductCategory updatedProductCategory = productCategoryRepository.findById(productCategory.getId()).get();
         // Disconnect from session so that the updates on updatedProductCategory are not directly saved in db
         em.detach(updatedProductCategory);
         updatedProductCategory
@@ -226,15 +227,15 @@ public class ProductCategoryResourceIntTest {
 
         // Create the ProductCategory
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restProductCategoryMockMvc.perform(put("/api/product-categories")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(productCategory)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the ProductCategory in the database
         List<ProductCategory> productCategoryList = productCategoryRepository.findAll();
-        assertThat(productCategoryList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(productCategoryList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

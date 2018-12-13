@@ -1,51 +1,29 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { StoreSharedModule } from '../../shared';
+import { StoreSharedModule } from 'app/shared';
 import {
-    InvoiceService,
-    InvoicePopupService,
     InvoiceComponent,
     InvoiceDetailComponent,
-    InvoiceDialogComponent,
-    InvoicePopupComponent,
+    InvoiceUpdateComponent,
     InvoiceDeletePopupComponent,
     InvoiceDeleteDialogComponent,
     invoiceRoute,
-    invoicePopupRoute,
-    InvoiceResolvePagingParams,
+    invoicePopupRoute
 } from './';
 
-const ENTITY_STATES = [
-    ...invoiceRoute,
-    ...invoicePopupRoute,
-];
+const ENTITY_STATES = [...invoiceRoute, ...invoicePopupRoute];
 
 @NgModule({
-    imports: [
-        StoreSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
+    imports: [StoreSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         InvoiceComponent,
         InvoiceDetailComponent,
-        InvoiceDialogComponent,
+        InvoiceUpdateComponent,
         InvoiceDeleteDialogComponent,
-        InvoicePopupComponent,
-        InvoiceDeletePopupComponent,
+        InvoiceDeletePopupComponent
     ],
-    entryComponents: [
-        InvoiceComponent,
-        InvoiceDialogComponent,
-        InvoicePopupComponent,
-        InvoiceDeleteDialogComponent,
-        InvoiceDeletePopupComponent,
-    ],
-    providers: [
-        InvoiceService,
-        InvoicePopupService,
-        InvoiceResolvePagingParams,
-    ],
+    entryComponents: [InvoiceComponent, InvoiceUpdateComponent, InvoiceDeleteDialogComponent, InvoiceDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class StoreInvoiceModule {}

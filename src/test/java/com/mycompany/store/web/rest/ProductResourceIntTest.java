@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 import static com.mycompany.store.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -55,7 +56,7 @@ public class ProductResourceIntTest {
     private static final Size UPDATED_SIZE = Size.M;
 
     private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(2, "1");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
 
@@ -228,7 +229,7 @@ public class ProductResourceIntTest {
             .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
-
+    
     @Test
     @Transactional
     public void getProduct() throws Exception {
@@ -265,7 +266,7 @@ public class ProductResourceIntTest {
         int databaseSizeBeforeUpdate = productRepository.findAll().size();
 
         // Update the product
-        Product updatedProduct = productRepository.findOne(product.getId());
+        Product updatedProduct = productRepository.findById(product.getId()).get();
         // Disconnect from session so that the updates on updatedProduct are not directly saved in db
         em.detach(updatedProduct);
         updatedProduct
@@ -300,15 +301,15 @@ public class ProductResourceIntTest {
 
         // Create the Product
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restProductMockMvc.perform(put("/api/products")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(product)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Product in the database
         List<Product> productList = productRepository.findAll();
-        assertThat(productList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(productList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

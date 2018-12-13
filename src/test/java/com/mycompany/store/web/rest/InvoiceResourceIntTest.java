@@ -28,6 +28,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+
 import static com.mycompany.store.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -115,10 +116,10 @@ public class InvoiceResourceIntTest {
             .paymentAmount(DEFAULT_PAYMENT_AMOUNT)
             .code(DEFAULT_CODE);
         // Add required entity
-        ProductOrder order = ProductOrderResourceIntTest.createEntity(em);
-        em.persist(order);
+        ProductOrder productOrder = ProductOrderResourceIntTest.createEntity(em);
+        em.persist(productOrder);
         em.flush();
-        invoice.setOrder(order);
+        invoice.setOrder(productOrder);
         return invoice;
     }
 
@@ -297,7 +298,7 @@ public class InvoiceResourceIntTest {
             .andExpect(jsonPath("$.[*].paymentAmount").value(hasItem(DEFAULT_PAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getInvoice() throws Exception {
@@ -335,7 +336,7 @@ public class InvoiceResourceIntTest {
         int databaseSizeBeforeUpdate = invoiceRepository.findAll().size();
 
         // Update the invoice
-        Invoice updatedInvoice = invoiceRepository.findOne(invoice.getId());
+        Invoice updatedInvoice = invoiceRepository.findById(invoice.getId()).get();
         // Disconnect from session so that the updates on updatedInvoice are not directly saved in db
         em.detach(updatedInvoice);
         updatedInvoice
@@ -372,15 +373,15 @@ public class InvoiceResourceIntTest {
 
         // Create the Invoice
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restInvoiceMockMvc.perform(put("/api/invoices")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(invoice)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Invoice in the database
         List<Invoice> invoiceList = invoiceRepository.findAll();
-        assertThat(invoiceList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(invoiceList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

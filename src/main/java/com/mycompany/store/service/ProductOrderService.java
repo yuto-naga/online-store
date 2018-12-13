@@ -7,11 +7,13 @@ import com.mycompany.store.security.SecurityUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 /**
  * Service Implementation for managing ProductOrder.
@@ -56,6 +58,7 @@ public class ProductOrderService {
         }
     }
 
+
     /**
      * Get one productOrder by id.
      *
@@ -63,14 +66,9 @@ public class ProductOrderService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public ProductOrder findOne(Long id) {
+    public Optional<ProductOrder> findOne(Long id) {
         log.debug("Request to get ProductOrder : {}", id);
-        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)){
-            return productOrderRepository.findOne(id);
-        }
-        else {
-            return productOrderRepository.findOneByIdAndCustomerUserLogin(id, SecurityUtils.getCurrentUserLogin().get());
-        }
+        return productOrderRepository.findById(id);
     }
 
     /**
@@ -80,6 +78,6 @@ public class ProductOrderService {
      */
     public void delete(Long id) {
         log.debug("Request to delete ProductOrder : {}", id);
-        productOrderRepository.delete(id);
+        productOrderRepository.deleteById(id);
     }
 }

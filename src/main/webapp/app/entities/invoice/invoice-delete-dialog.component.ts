@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Invoice } from './invoice.model';
-import { InvoicePopupService } from './invoice-popup.service';
+import { IInvoice } from 'app/shared/model/invoice.model';
 import { InvoiceService } from './invoice.service';
 
 @Component({
@@ -13,22 +12,16 @@ import { InvoiceService } from './invoice.service';
     templateUrl: './invoice-delete-dialog.component.html'
 })
 export class InvoiceDeleteDialogComponent {
+    invoice: IInvoice;
 
-    invoice: Invoice;
-
-    constructor(
-        private invoiceService: InvoiceService,
-        public activeModal: NgbActiveModal,
-        private eventManager: JhiEventManager
-    ) {
-    }
+    constructor(private invoiceService: InvoiceService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
     }
 
     confirmDelete(id: number) {
-        this.invoiceService.delete(id).subscribe((response) => {
+        this.invoiceService.delete(id).subscribe(response => {
             this.eventManager.broadcast({
                 name: 'invoiceListModification',
                 content: 'Deleted an invoice'
@@ -43,22 +36,30 @@ export class InvoiceDeleteDialogComponent {
     template: ''
 })
 export class InvoiceDeletePopupComponent implements OnInit, OnDestroy {
+    private ngbModalRef: NgbModalRef;
 
-    routeSub: any;
-
-    constructor(
-        private route: ActivatedRoute,
-        private invoicePopupService: InvoicePopupService
-    ) {}
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            this.invoicePopupService
-                .open(InvoiceDeleteDialogComponent as Component, params['id']);
+        this.activatedRoute.data.subscribe(({ invoice }) => {
+            setTimeout(() => {
+                this.ngbModalRef = this.modalService.open(InvoiceDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+                this.ngbModalRef.componentInstance.invoice = invoice;
+                this.ngbModalRef.result.then(
+                    result => {
+                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.ngbModalRef = null;
+                    },
+                    reason => {
+                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.ngbModalRef = null;
+                    }
+                );
+            }, 0);
         });
     }
 
     ngOnDestroy() {
-        this.routeSub.unsubscribe();
+        this.ngbModalRef = null;
     }
 }

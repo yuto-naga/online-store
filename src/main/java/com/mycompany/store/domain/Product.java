@@ -1,5 +1,6 @@
 package com.mycompany.store.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -37,7 +38,7 @@ public class Product implements Serializable {
 
     @NotNull
     @DecimalMin(value = "0")
-    @Column(name = "price", precision=10, scale=2, nullable = false)
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
 
     @NotNull
@@ -53,6 +54,7 @@ public class Product implements Serializable {
     private String imageContentType;
 
     @ManyToOne
+    @JsonIgnoreProperties("products")
     private ProductCategory productCategory;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

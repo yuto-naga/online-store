@@ -69,7 +69,7 @@ public class ProductCategoryResource {
     public ResponseEntity<ProductCategory> updateProductCategory(@Valid @RequestBody ProductCategory productCategory) throws URISyntaxException {
         log.debug("REST request to update ProductCategory : {}", productCategory);
         if (productCategory.getId() == null) {
-            return createProductCategory(productCategory);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ProductCategory result = productCategoryService.save(productCategory);
         return ResponseEntity.ok()
@@ -87,7 +87,7 @@ public class ProductCategoryResource {
     public List<ProductCategory> getAllProductCategories() {
         log.debug("REST request to get all ProductCategories");
         return productCategoryService.findAll();
-        }
+    }
 
     /**
      * GET  /product-categories/:id : get the "id" productCategory.
@@ -99,8 +99,8 @@ public class ProductCategoryResource {
     @Timed
     public ResponseEntity<ProductCategory> getProductCategory(@PathVariable Long id) {
         log.debug("REST request to get ProductCategory : {}", id);
-        ProductCategory productCategory = productCategoryService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(productCategory));
+        Optional<ProductCategory> productCategory = productCategoryService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(productCategory);
     }
 
     /**

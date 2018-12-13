@@ -1,7 +1,6 @@
-
 {
     "storeApp": {
-        "invoice" : {
+        "invoice": {
             "home": {
                 "title": "Invoices",
                 "createLabel": "创建新 Invoice",

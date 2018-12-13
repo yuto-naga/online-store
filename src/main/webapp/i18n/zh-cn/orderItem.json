@@ -1,7 +1,6 @@
-
 {
     "storeApp": {
-        "orderItem" : {
+        "orderItem": {
             "home": {
                 "title": "Order Items",
                 "createLabel": "创建新 Order Item",

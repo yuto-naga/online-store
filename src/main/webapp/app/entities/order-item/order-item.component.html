@@ -1,61 +1,56 @@
 <div>
-    <h2>
+    <h2 id="page-heading">
         <span jhiTranslate="storeApp.orderItem.home.title">Order Items</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" class="btn btn-primary float-right jh-create-entity create-order-item" [routerLink]="['/', { outlets: { popup: ['order-item-new'] } }]">
-            <span class="fa fa-plus"></span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-order-item" [routerLink]="['/order-item/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="storeApp.orderItem.home.createLabel">
             Create new Order Item
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
-    </div>
     <br/>
     <div class="table-responsive" *ngIf="orderItems">
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="quantity"><span jhiTranslate="storeApp.orderItem.quantity">Quantity</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="totalPrice"><span jhiTranslate="storeApp.orderItem.totalPrice">Total Price</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="status"><span jhiTranslate="storeApp.orderItem.status">Status</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="product.name"><span jhiTranslate="storeApp.orderItem.product">Product</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="order.code"><span jhiTranslate="storeApp.orderItem.order">Order</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="quantity"><span jhiTranslate="storeApp.orderItem.quantity">Quantity</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="totalPrice"><span jhiTranslate="storeApp.orderItem.totalPrice">Total Price</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span jhiTranslate="storeApp.orderItem.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="product.name"><span jhiTranslate="storeApp.orderItem.product">Product</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="order.code"><span jhiTranslate="storeApp.orderItem.order">Order</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let orderItem of orderItems ;trackBy: trackId">
-                <td><a [routerLink]="['../order-item', orderItem.id ]">{{orderItem.id}}</a></td>
+                <td><a [routerLink]="['/order-item', orderItem.id, 'view' ]">{{orderItem.id}}</a></td>
                 <td>{{orderItem.quantity}}</td>
                 <td>{{orderItem.totalPrice}}</td>
                 <td jhiTranslate="{{'storeApp.OrderItemStatus.' + orderItem.status}}">{{orderItem.status}}</td>
                 <td>
                     <div *ngIf="orderItem.product">
-                        <a [routerLink]="['../product', orderItem.product?.id ]" >{{orderItem.product?.name}}</a>
+                        <a [routerLink]="['../product', orderItem.product?.id, 'view' ]" >{{orderItem.product?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="orderItem.order">
-                        <a [routerLink]="['../product-order', orderItem.order?.id ]" >{{orderItem.order?.code}}</a>
+                        <a [routerLink]="['../product-order', orderItem.order?.id, 'view' ]" >{{orderItem.order?.code}}</a>
                     </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../order-item', orderItem.id ]"
+                                [routerLink]="['/order-item', orderItem.id, 'view' ]"
                                 class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
+                            <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" 
-                                type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'order-item/'+ orderItem.id + '/edit'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit"
+                                [routerLink]="['/order-item', orderItem.id, 'edit']"
                                 class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button *jhiHasAnyAuthority="'ROLE_ADMIN'"
@@ -64,7 +59,7 @@
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
+                            <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
                     </div>

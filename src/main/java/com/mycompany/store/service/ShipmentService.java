@@ -4,11 +4,13 @@ import com.mycompany.store.domain.Shipment;
 import com.mycompany.store.repository.ShipmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Shipment.
@@ -48,6 +50,7 @@ public class ShipmentService {
         return shipmentRepository.findAll(pageable);
     }
 
+
     /**
      * Get one shipment by id.
      *
@@ -55,9 +58,9 @@ public class ShipmentService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public Shipment findOne(Long id) {
+    public Optional<Shipment> findOne(Long id) {
         log.debug("Request to get Shipment : {}", id);
-        return shipmentRepository.findOne(id);
+        return shipmentRepository.findById(id);
     }
 
     /**
@@ -67,6 +70,6 @@ public class ShipmentService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Shipment : {}", id);
-        shipmentRepository.delete(id);
+        shipmentRepository.deleteById(id);
     }
 }

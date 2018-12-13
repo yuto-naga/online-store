@@ -28,6 +28,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+
 import static com.mycompany.store.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -219,7 +220,7 @@ public class ProductOrderResourceIntTest {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getProductOrder() throws Exception {
@@ -253,7 +254,7 @@ public class ProductOrderResourceIntTest {
         int databaseSizeBeforeUpdate = productOrderRepository.findAll().size();
 
         // Update the productOrder
-        ProductOrder updatedProductOrder = productOrderRepository.findOne(productOrder.getId());
+        ProductOrder updatedProductOrder = productOrderRepository.findById(productOrder.getId()).get();
         // Disconnect from session so that the updates on updatedProductOrder are not directly saved in db
         em.detach(updatedProductOrder);
         updatedProductOrder
@@ -282,15 +283,15 @@ public class ProductOrderResourceIntTest {
 
         // Create the ProductOrder
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restProductOrderMockMvc.perform(put("/api/product-orders")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(productOrder)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the ProductOrder in the database
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
-        assertThat(productOrderList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(productOrderList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

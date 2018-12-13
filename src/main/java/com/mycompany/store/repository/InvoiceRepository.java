@@ -1,14 +1,12 @@
 package com.mycompany.store.repository;
 
 import com.mycompany.store.domain.Invoice;
-import org.springframework.stereotype.Repository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 
 
 /**
- * Spring Data JPA repository for the Invoice entity.
+ * Spring Data  repository for the Invoice entity.
  */
 @SuppressWarnings("unused")
 @Repository

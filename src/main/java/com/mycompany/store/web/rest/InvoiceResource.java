@@ -74,7 +74,7 @@ public class InvoiceResource {
     public ResponseEntity<Invoice> updateInvoice(@Valid @RequestBody Invoice invoice) throws URISyntaxException {
         log.debug("REST request to update Invoice : {}", invoice);
         if (invoice.getId() == null) {
-            return createInvoice(invoice);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Invoice result = invoiceService.save(invoice);
         return ResponseEntity.ok()
@@ -94,7 +94,7 @@ public class InvoiceResource {
         log.debug("REST request to get a page of Invoices");
         Page<Invoice> page = invoiceService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/invoices");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -107,8 +107,8 @@ public class InvoiceResource {
     @Timed
     public ResponseEntity<Invoice> getInvoice(@PathVariable Long id) {
         log.debug("REST request to get Invoice : {}", id);
-        Invoice invoice = invoiceService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(invoice));
+        Optional<Invoice> invoice = invoiceService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(invoice);
     }
 
     /**

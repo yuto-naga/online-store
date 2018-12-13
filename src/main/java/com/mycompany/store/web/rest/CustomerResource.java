@@ -74,7 +74,7 @@ public class CustomerResource {
     public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer) throws URISyntaxException {
         log.debug("REST request to update Customer : {}", customer);
         if (customer.getId() == null) {
-            return createCustomer(customer);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Customer result = customerService.save(customer);
         return ResponseEntity.ok()
@@ -94,7 +94,7 @@ public class CustomerResource {
         log.debug("REST request to get a page of Customers");
         Page<Customer> page = customerService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/customers");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -107,8 +107,8 @@ public class CustomerResource {
     @Timed
     public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         log.debug("REST request to get Customer : {}", id);
-        Customer customer = customerService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(customer));
+        Optional<Customer> customer = customerService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(customer);
     }
 
     /**

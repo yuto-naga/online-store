@@ -1,13 +1,12 @@
 package com.mycompany.store.repository;
 
 import com.mycompany.store.domain.Customer;
-import org.springframework.stereotype.Repository;
-
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 
 
 /**
- * Spring Data JPA repository for the Customer entity.
+ * Spring Data  repository for the Customer entity.
  */
 @SuppressWarnings("unused")
 @Repository

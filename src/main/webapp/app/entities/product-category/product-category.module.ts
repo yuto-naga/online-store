@@ -1,48 +1,33 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { StoreSharedModule } from '../../shared';
+import { StoreSharedModule } from 'app/shared';
 import {
-    ProductCategoryService,
-    ProductCategoryPopupService,
     ProductCategoryComponent,
     ProductCategoryDetailComponent,
-    ProductCategoryDialogComponent,
-    ProductCategoryPopupComponent,
+    ProductCategoryUpdateComponent,
     ProductCategoryDeletePopupComponent,
     ProductCategoryDeleteDialogComponent,
     productCategoryRoute,
-    productCategoryPopupRoute,
+    productCategoryPopupRoute
 } from './';
 
-const ENTITY_STATES = [
-    ...productCategoryRoute,
-    ...productCategoryPopupRoute,
-];
+const ENTITY_STATES = [...productCategoryRoute, ...productCategoryPopupRoute];
 
 @NgModule({
-    imports: [
-        StoreSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
+    imports: [StoreSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         ProductCategoryComponent,
         ProductCategoryDetailComponent,
-        ProductCategoryDialogComponent,
+        ProductCategoryUpdateComponent,
         ProductCategoryDeleteDialogComponent,
-        ProductCategoryPopupComponent,
-        ProductCategoryDeletePopupComponent,
+        ProductCategoryDeletePopupComponent
     ],
     entryComponents: [
         ProductCategoryComponent,
-        ProductCategoryDialogComponent,
-        ProductCategoryPopupComponent,
+        ProductCategoryUpdateComponent,
         ProductCategoryDeleteDialogComponent,
-        ProductCategoryDeletePopupComponent,
-    ],
-    providers: [
-        ProductCategoryService,
-        ProductCategoryPopupService,
+        ProductCategoryDeletePopupComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

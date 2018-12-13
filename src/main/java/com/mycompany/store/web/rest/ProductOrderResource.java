@@ -74,7 +74,7 @@ public class ProductOrderResource {
     public ResponseEntity<ProductOrder> updateProductOrder(@Valid @RequestBody ProductOrder productOrder) throws URISyntaxException {
         log.debug("REST request to update ProductOrder : {}", productOrder);
         if (productOrder.getId() == null) {
-            return createProductOrder(productOrder);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ProductOrder result = productOrderService.save(productOrder);
         return ResponseEntity.ok()
@@ -94,7 +94,7 @@ public class ProductOrderResource {
         log.debug("REST request to get a page of ProductOrders");
         Page<ProductOrder> page = productOrderService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/product-orders");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -107,8 +107,8 @@ public class ProductOrderResource {
     @Timed
     public ResponseEntity<ProductOrder> getProductOrder(@PathVariable Long id) {
         log.debug("REST request to get ProductOrder : {}", id);
-        ProductOrder productOrder = productOrderService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(productOrder));
+        Optional<ProductOrder> productOrder = productOrderService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(productOrder);
     }
 
     /**

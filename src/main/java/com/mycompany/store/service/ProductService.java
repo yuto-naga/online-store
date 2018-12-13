@@ -4,11 +4,13 @@ import com.mycompany.store.domain.Product;
 import com.mycompany.store.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Product.
@@ -48,6 +50,7 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+
     /**
      * Get one product by id.
      *
@@ -55,9 +58,9 @@ public class ProductService {
      * @return the entity
      */
     @Transactional(readOnly = true)
-    public Product findOne(Long id) {
+    public Optional<Product> findOne(Long id) {
         log.debug("Request to get Product : {}", id);
-        return productRepository.findOne(id);
+        return productRepository.findById(id);
     }
 
     /**
@@ -67,6 +70,6 @@ public class ProductService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Product : {}", id);
-        productRepository.delete(id);
+        productRepository.deleteById(id);
     }
 }
