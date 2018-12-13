@@ -38,6 +38,8 @@
       "zh-cn",
       "fr"
     ],
-    "otherModules": []
+    "otherModules": [],
+    "herokuAppName": "secret-mesa-22244",
+    "herokuDeployType": "git"
   }
 }
